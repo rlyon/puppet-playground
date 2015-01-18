@@ -1,0 +1,6 @@
+external_url '<%= @external_url %>'
+<% if defined?(@ci_external_url) -%>ci_external_url '<%= @ci_external_url %>'
+<% end %><% if defined?(@gitlab_server_urls) -%>gitlab_ci['gitlab_server_urls'] = [<%= "'" + @gitlab_server_urls.join(',') + "'" %>]
+<% end %><% if defined?(@gitlab_unicorn_enable) -%>unicorn['enable'] = <%= @gitlab_unicorn_enable %>
+<% end %><% if defined?(@gitlab_sidekiq_enable) -%>sidekiq['enable'] = <%= @gitlab_sidekiq_enable %>
+<% end %>
