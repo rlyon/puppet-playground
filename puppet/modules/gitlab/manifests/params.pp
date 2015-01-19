@@ -14,4 +14,5 @@ class gitlab::params {
   $gitlab_sidekiq_enable    = undef
 
   $gitlab_default_users     = false
+  $gitlab_demo              = false
 }

@@ -11,6 +11,7 @@ class gitlab(
   $gitlab_unicorn_enable    = $::gitlab::params::gitlab_unicorn_enable,
   $gitlab_sidekiq_enable    = $::gitlab::params::gitlab_sidekiq_enable,
   $gitlab_default_users     = $::gitlab::params::gitlab_default_users,
+  $gitlab_demo              = $::gitlab::params::gitlab_demo,
 ) inherits gitlab::params {
 
   package { $gitlab_deps:
@@ -42,12 +43,15 @@ class gitlab(
     require => Package['wget'],
   }
 
+  ###
+  ### Chain order so we don't try to restore before the reconfigure
+  ###
   package { 'gitlab':
     ensure => latest,
     source => "${gitlab_download_location}/${gitlab_filename}",
     require => Exec['download-gitlab'],
     provider => 'rpm'
-  }
+  }->
 
   file { '/etc/gitlab/gitlab.rb' :
     ensure  => present,
@@ -57,12 +61,24 @@ class gitlab(
     content => template('gitlab/gitlab.rb.erb'),
     require => Package['gitlab'],
     notify => Exec['gitlab-reconfigure'],
-  }
+  }->
 
   exec { 'gitlab-reconfigure':
     command => '/usr/bin/gitlab-ctl reconfigure',
     refreshonly => true,
   }
+
+  if ($gitlab_default_users) {
+    info('Setting the root password and adding the default user.')
+    include ::gitlab::users
+  }
+
+  if ($gitlab_demo) {
+    info('Restoring the demo repository and users.')
+    include ::gitlab::demo
+  }
+
+  ####
 
   cron { 'Backup github database':
     command => '/opt/gitlab/bin/gitlab-rake gitlab:backup:create 1>/dev/null',
@@ -70,10 +86,5 @@ class gitlab(
     hour    => 2,
     minute  => 0,
     require => Package['gitlab'],
-  }
-
-  if $gitlab_default_users {
-    info('Setting the root password and adding the default user.')
-    include ::gitlab::users
   }
 }
