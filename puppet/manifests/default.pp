@@ -21,19 +21,27 @@ node 'gitlab.local.vm' {
 
 node 'puppet.local.vm' {
   include common
-  include puppetmaster
+  class { 'puppetmaster': }
 
   class { 'r10k':
-  version           => '1.3.2',
-  sources           => {
-    'puppet' => {
-      'remote'  => 'http://gitlab.local.vm/puppet/puppet-repository.git',
-      'basedir' => "${::settings::confdir}/environments",
-      'prefix'  => false,
-    }
+    version           => '1.3.2',
+    sources           => {
+      'puppet' => {
+        'remote'  => 'git@gitlab.local.vm:puppet/puppet-repository.git',
+        'basedir' => "${::settings::confdir}/environments",
+        'prefix'  => false,
+      }
     },
     purgedirs         => ["${::settings::confdir}/environments"],
     manage_modulepath => false,
+  }
+}
+
+node /^runner\d+$/ {
+  include common
+  class { 'gitlab::runner':
+    ci_external_url => 'http://ci.local.vm',
+    ci_registration_token => 'c923f90fc21704a42340',
   }
 }
 

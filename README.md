@@ -1,9 +1,15 @@
-# Puppet-Workflow
+# Puppet Playground
 
-login.........root
-password......supersecretrootpassword
-token.........mxKCg3dAQstgzqspELFa
+The puppet playground is an enviromnent that can be used to study and test continuous integration and deployment for puppet.  Using vagrant, you can spin up a Puppetmaster, Gitlab CE and Gitlab CI, CI runners, and test hosts to deploy configurations to.
 
-login.........puppet
-password......supersecret
-token.........nxKCg3dAQstgzqspELFb
+## Gitlab
+
+The Gitlab playground will layout two users and a control repository with 3 branches: development, test and production.  The credentials for the users:
+
+#### root
+ * Password: supersecretrootpassword
+ * Token: mxKCg3dAQstgzqspELFa
+
+#### puppet
+ * Password: supersecret
+ * Token: nxKCg3dAQstgzqspELFb

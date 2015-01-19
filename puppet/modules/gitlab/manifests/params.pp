@@ -8,6 +8,7 @@ class gitlab::params {
 
   $external_url             = "http://${fqdn}"
   $ci_external_url          = undef
+  $ci_registration_token    = undef
 
   $gitlab_server_urls       = undef
   $gitlab_unicorn_enable    = undef
