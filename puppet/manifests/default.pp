@@ -37,6 +37,12 @@ node 'puppet.local.vm' {
   }
 }
 
+node 'control.local.vm' {
+  include common::hosts
+  include common::ntp
+  class { 'salt::master': }
+}
+
 node /^runner\d+$/ {
   include common
   class { 'gitlab::runner':

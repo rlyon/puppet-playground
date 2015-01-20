@@ -13,3 +13,5 @@ The Gitlab playground will layout two users and a control repository with 3 bran
 #### puppet
  * Password: supersecret
  * Token: nxKCg3dAQstgzqspELFb
+
+## Bringing everything up
