@@ -5,7 +5,7 @@ class gitlab::demo {
     mode => '0644',
     source => 'puppet:///modules/gitlab/1421633623_gitlab_backup.tar',
     notify => Exec['gitlab-restore-demo-backup'],
-    require => Package['gitlab'],
+    require => Exec['gitlab-reconfigure'],
   }
 
   exec { 'gitlab-restore-demo-backup':
