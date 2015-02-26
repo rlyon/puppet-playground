@@ -1,0 +1,9 @@
+:cachedir: '/var/cache/r10k'
+
+:sources:
+  :gitlab:
+    remote: git@gitlab.local.vm:puppet/puppet-repository.git
+    basedir: /etc/puppet/environments
+
+:purgedirs:
+  - '/etc/puppet/environments'

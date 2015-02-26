@@ -1,4 +1,4 @@
-class gitlab(
+class gitlab (
   $gitlab_download_location = $::gitlab::params::gitlab_download_location,
   $gitlab_version           = $::gitlab::params::gitlab_version,
   $gitlab_omnibus_version   = $::gitlab::params::gitlab_omnibus_version,

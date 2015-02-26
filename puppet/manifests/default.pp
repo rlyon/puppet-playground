@@ -47,10 +47,10 @@ node /^runner\d+$/ {
   include common
   class { 'gitlab::runner':
     ci_external_url => 'http://ci.local.vm',
-    ci_registration_token => 'c923f90fc21704a42340',
+    ci_registration_token => $::ci_token,
   }
 }
 
-node /^web\d+$/ {
+node /^host\d+$/ {
   include common
 }

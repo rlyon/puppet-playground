@@ -98,6 +98,9 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |vagrant|
 
   [1, 2, 3].each do |num|
     vagrant.vm.define "runner#{num}" do |config|
+      unless ENV['CI_TOKEN']
+        raise "You need to export CI_TOKEN"
+      end
       config.vm.box = "opscode-centos-7.0"
       config.vm.box_url = "http://opscode-vm-bento.s3.amazonaws.com/vagrant/virtualbox/opscode_centos-7.0_chef-provisionerless.box"
       config.vm.hostname = "runner#{num}.local.vm"
@@ -109,6 +112,7 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |vagrant|
         puppet.manifest_file  = "default.pp"
         puppet.hiera_config_path = "puppet/hiera.yaml"
         puppet.module_path = ["puppet/modules", "puppet/vendor"]
+        puppet.facter['ci_token'] = ENV['CI_TOKEN']
       end
 
       config.vm.provider "virtualbox" do |vb|
